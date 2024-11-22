@@ -1,0 +1,23 @@
+{
+  "verbose": true,
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ES2022",
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "outDir": "dist",
+    "lib": [
+      "ES2023"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

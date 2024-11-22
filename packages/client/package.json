@@ -1,0 +1,73 @@
+{
+  "name": "skyrim-effect-client",
+  "version": "0.0.1",
+  "private": false,
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "pnpm build-esm && pnpm build-cjs",
+    "build-esm": "tsc -b",
+    "build-cjs": "babel dist/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir dist/cjs --source-maps"
+  },
+  "keywords": [
+    "skyrim",
+    "skryim platform"
+  ],
+  "peerDependencies": {
+    "@effect/schema": "catalog:",
+    "@skyrim-platform/skyrim-platform": "2.9.0",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-transform-export-namespace-from": "^7.25.9",
+    "@babel/plugin-transform-modules-commonjs": "^7.25.9"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/dts/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./common/Debug": {
+      "types": "./dist/dts/common/Debug.d.ts",
+      "import": "./dist/esm/common/Debug.js",
+      "default": "./dist/cjs/common/Debug.js"
+    },
+    "./common/Error": {
+      "types": "./dist/dts/common/Error.d.ts",
+      "import": "./dist/esm/common/Error.js",
+      "default": "./dist/cjs/common/Error.js"
+    },
+    "./common/Http": {
+      "types": "./dist/dts/common/Http.d.ts",
+      "import": "./dist/esm/common/Http.js",
+      "default": "./dist/cjs/common/Http.js"
+    },
+    "./common/Log": {
+      "types": "./dist/dts/common/Log.d.ts",
+      "import": "./dist/esm/common/Log.js",
+      "default": "./dist/cjs/common/Log.js"
+    },
+    "./common/Type": {
+      "types": "./dist/dts/common/Type.d.ts",
+      "import": "./dist/esm/common/Type.js",
+      "default": "./dist/cjs/common/Type.js"
+    },
+    "./game/Event": {
+      "types": "./dist/dts/game/Event.d.ts",
+      "import": "./dist/esm/game/Event.js",
+      "default": "./dist/cjs/game/Event.js"
+    },
+    "./game/Form": {
+      "types": "./dist/dts/game/Form.d.ts",
+      "import": "./dist/esm/game/Form.js",
+      "default": "./dist/cjs/game/Form.js"
+    }
+  }
+}

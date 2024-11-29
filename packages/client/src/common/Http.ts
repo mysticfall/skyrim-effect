@@ -6,7 +6,7 @@ import {Schema} from "effect/Schema"
 import * as ST from "effect/String"
 import * as O from "effect/Option"
 import {TaggedError} from "effect/Data"
-import {ParseError} from "effect/ParseResult"
+import {parseError, ParseError, Unexpected} from "effect/ParseResult"
 import {ReadonlyRecord} from "effect/Record"
 import {ParseOptions} from "effect/SchemaAST"
 import {pipe} from "effect/Function"
@@ -16,6 +16,8 @@ export class HttpError extends TaggedError("Http")<{
     status?: number
 }> {
 }
+
+export type RawResponse = { status: number, body: string }
 
 export interface HttpClient {
     get<A, I = A, R = never>(
@@ -27,14 +29,22 @@ export interface HttpClient {
         }
     ): Effect<A, HttpError | ParseError, R>
 
+    getRaw(
+        path: string,
+        options?: {
+            readonly headers?: ReadonlyRecord<string, string>,
+            readonly parse?: ParseOptions
+        }
+    ): Effect<RawResponse, HttpError>
+
     post<A, I = A, R = never>(
         path: string,
         body: string,
         schema: Schema<A, I, R>,
         options?: {
             readonly contentType?: string,
-            readonly headers: ReadonlyRecord<string, string>,
-            readonly parse: ParseOptions
+            readonly headers?: ReadonlyRecord<string, string>,
+            readonly parse?: ParseOptions
         }
     ): Effect<A, HttpError | ParseError, R>
 
@@ -46,7 +56,7 @@ export interface HttpClient {
             readonly headers?: ReadonlyRecord<string, string>,
             readonly parse?: ParseOptions
         }
-    ): Effect<unknown, HttpError>
+    ): Effect<RawResponse, HttpError>
 }
 
 export interface HttpClientOptions {
@@ -60,9 +70,11 @@ export abstract class AbstractHttpClient implements HttpClient {
         this.baseUrl = options.baseUrl.replace(/\/+$/, "")
 
         this.resolveUrl = this.resolveUrl.bind(this)
-        this.handleResponse = this.handleResponse.bind(this)
+        this.handleHttpErrors = this.handleHttpErrors.bind(this)
+        this.validateResponse = this.validateResponse.bind(this)
 
         this.get = this.get.bind(this)
+        this.getRaw = this.getRaw.bind(this)
         this.post = this.post.bind(this)
         this.postRaw = this.postRaw.bind(this)
         this.doGet = this.doGet.bind(this)
@@ -75,15 +87,13 @@ export abstract class AbstractHttpClient implements HttpClient {
         return [this.baseUrl, path].join("/")
     }
 
-    protected handleResponse(
-        response: { status: number, body: string }
-    ): Effect<string, HttpError> {
+    protected handleHttpErrors(response: RawResponse): Effect<RawResponse, HttpError> {
         const {status, body} = response
 
         return FX.gen(function* () {
             yield* FX.logTrace(`HTTP response: status=${status}, body=${JSON.stringify(body)}`)
 
-            if (200 < status || status >= 300) {
+            if (status < 200 || status >= 300) {
                 return yield* new HttpError({
                     message: pipe(
                         body,
@@ -96,8 +106,24 @@ export abstract class AbstractHttpClient implements HttpClient {
                 })
             }
 
-            return body
+            return {status, body}
         })
+    }
+
+    protected validateResponse<A, I = A, R = never>(
+        schema: Schema<A, I, R>,
+        options?: ParseOptions
+    ): (response: RawResponse) => Effect<A, ParseError, R> {
+        return ({body}) => pipe(
+            FX.try({
+                try: () => JSON.parse(body),
+                catch: e => pipe(
+                    new Unexpected(body, e instanceof Error ? e.message : e?.toString()),
+                    parseError
+                )
+            }),
+            FX.flatMap(SC.validate(schema, options))
+        )
     }
 
     get<A, I = A, R = never>(
@@ -109,10 +135,21 @@ export abstract class AbstractHttpClient implements HttpClient {
         }
     ): Effect<A, HttpError | ParseError, R> {
         return pipe(
+            this.getRaw(this.resolveUrl(path), options),
+            FX.flatMap(this.validateResponse(schema, options?.parse))
+        )
+    }
+
+    getRaw(
+        path: string,
+        options?: {
+            readonly headers?: ReadonlyRecord<string, string>
+        }
+    ): Effect<RawResponse, HttpError> {
+        return pipe(
             FX.logTrace(`HTTP request: GET ${path}`),
             FX.flatMap(() => this.doGet(this.resolveUrl(path), options)),
-            FX.flatMap(this.handleResponse),
-            FX.flatMap(SC.validate(schema, options?.parse))
+            FX.flatMap(this.handleHttpErrors)
         )
     }
 
@@ -127,9 +164,8 @@ export abstract class AbstractHttpClient implements HttpClient {
         }
     ): Effect<A, HttpError | ParseError, R> {
         return pipe(
-            FX.logTrace(`HTTP request: POST ${path}`),
-            FX.flatMap(() => this.postRaw(path, body, options)),
-            FX.flatMap(SC.validate(schema, options?.parse))
+            this.postRaw(path, body, options),
+            FX.flatMap(this.validateResponse(schema, options?.parse))
         )
     }
 
@@ -140,10 +176,11 @@ export abstract class AbstractHttpClient implements HttpClient {
             readonly contentType?: string,
             readonly headers?: ReadonlyRecord<string, string>
         }
-    ): Effect<unknown, HttpError> {
+    ): Effect<RawResponse, HttpError> {
         return pipe(
-            this.doPost(this.resolveUrl(path), body, options),
-            FX.flatMap(this.handleResponse)
+            FX.logTrace(`HTTP request: POST ${path}`),
+            FX.flatMap(() => this.doPost(this.resolveUrl(path), body, options)),
+            FX.flatMap(this.handleHttpErrors)
         )
     }
 
@@ -152,7 +189,7 @@ export abstract class AbstractHttpClient implements HttpClient {
         options?: {
             readonly headers?: ReadonlyRecord<string, string>
         }
-    ): Effect<{ status: number, body: string }, HttpError>
+    ): Effect<RawResponse, HttpError>
 
     protected abstract doPost(
         url: string,
@@ -161,7 +198,7 @@ export abstract class AbstractHttpClient implements HttpClient {
             readonly contentType?: string,
             readonly headers?: ReadonlyRecord<string, string>
         }
-    ): Effect<{ status: number, body: string }, HttpError>
+    ): Effect<RawResponse, HttpError>
 }
 
 export class PlatformHttpClient extends AbstractHttpClient {
@@ -181,7 +218,7 @@ export class PlatformHttpClient extends AbstractHttpClient {
 
     protected handlePlatformResponse(
         promise: Promise<HttpResponse>
-    ): Effect<{ status: number, body: string }, HttpError> {
+    ): Effect<RawResponse, HttpError> {
         return pipe(
             tryPromise({
                 try: () => promise,

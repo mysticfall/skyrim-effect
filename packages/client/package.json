@@ -16,9 +16,8 @@
     "skryim platform"
   ],
   "peerDependencies": {
-    "@effect/schema": "catalog:",
     "@skyrim-platform/skyrim-platform": "2.9.0",
-    "effect": "catalog:"
+    "effect": "^3.10"
   },
   "devDependencies": {
     "typescript": "^5.6.3",

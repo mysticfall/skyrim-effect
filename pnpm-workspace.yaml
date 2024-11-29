@@ -2,5 +2,4 @@ packages:
   - "packages/*"
   - "!**/test/**"
 catalog:
-  "effect": "^3.10.15"
-  "@effect/schema": "^0.75.5"
+  "effect": "^3.10"

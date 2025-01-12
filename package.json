@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": false,
   "type": "module",
-  "main": "./dist/skyrim-effect.umd.js",
-  "module": "./dist/skyrim-effect.es.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "types": "./dist/dts/index.d.ts",
   "scripts": {
     "build": "vite build && tsc -b --emitDeclarationOnly",
@@ -38,32 +38,49 @@
     "@eslint/js": "^9.18.0",
     "prettier": "^3.4.2",
     "typescript-eslint": "^8.19.1",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "glob": "^11.0.1"
   },
   "exports": {
-    "./package.json": "./package.json",
     ".": {
       "types": "./dist/dts/index.d.ts",
-      "import": "./dist/skyrim-effect.es.js",
-      "default": "./dist/skyrim-effect.umd.js"
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./common/Debug": {
-      "types": "./dist/dts/common/Debug.d.ts"
-    },
-    "./common/Error": {
-      "types": "./dist/dts/common/Error.d.ts"
+      "types": "./dist/dts/common/Debug.d.ts",
+      "import": "./dist/esm/common/Debug.js",
+      "require": "./dist/cjs/common/Debug.js"
     },
     "./common/Log": {
-      "types": "./dist/dts/common/Log.d.ts"
+      "types": "./dist/dts/common/Log.d.ts",
+      "import": "./dist/esm/common/Log.js",
+      "require": "./dist/cjs/common/Log.js"
     },
     "./common/Type": {
-      "types": "./dist/dts/common/Type.d.ts"
+      "types": "./dist/dts/common/Type.d.ts",
+      "import": "./dist/esm/common/Type.js",
+      "require": "./dist/cjs/common/Type.js"
     },
     "./game/Event": {
-      "types": "./dist/dts/game/Event.d.ts"
+      "types": "./dist/dts/game/Event.d.ts",
+      "import": "./dist/esm/game/Event.js",
+      "require": "./dist/cjs/game/Event.js"
     },
     "./game/Form": {
-      "types": "./dist/dts/game/Form.d.ts"
+      "types": "./dist/dts/game/Form.d.ts",
+      "import": "./dist/esm/game/Form.js",
+      "require": "./dist/cjs/game/Form.js"
+    },
+    "./*": {
+      "types": "./dist/dts/*.d.ts",
+      "import": "./dist/esm/*.js",
+      "require": "./dist/cjs/*.js"
     }
-  }
+  },
+  "files": [
+    "README.md",
+    "LICENSE.md",
+    "dist"
+  ]
 }

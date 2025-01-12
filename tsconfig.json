@@ -3,7 +3,6 @@
     "target": "ESNext",
     "module": "ESNext",
     "noEmit": false,
-    "outDir": "./dist",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "lib": [
@@ -21,7 +20,11 @@
     "skipLibCheck": true,
     "types": [
       "vitest/globals"
-    ]
+    ],
+    "baseUrl": "./",
+    "rootDir": "src",
+    "outDir": "dist",
+    "declarationDir": "dist/dts"
   },
   "include": [
     "./src"

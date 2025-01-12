@@ -5,9 +5,9 @@
   "type": "module",
   "main": "./dist/skyrim-effect.umd.js",
   "module": "./dist/skyrim-effect.umd.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/dts/index.d.ts",
   "scripts": {
-    "build": "vite build && tsc -b",
+    "build": "vite build && tsc -b --emitDeclarationOnly",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "doc": "typedoc",
@@ -44,38 +44,26 @@
     "./package.json": "./package.json",
     ".": {
       "types": "./dist/dts/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "default": "./dist/cjs/index.js"
+      "import": "./dist/skyrim-effect.es.js",
+      "default": "./dist/skyrim-effect.umd.js"
     },
     "./common/Debug": {
-      "types": "./dist/dts/common/Debug.d.ts",
-      "import": "./dist/esm/common/Debug.js",
-      "default": "./dist/cjs/common/Debug.js"
+      "types": "./dist/dts/common/Debug.d.ts"
     },
     "./common/Error": {
-      "types": "./dist/dts/common/Error.d.ts",
-      "import": "./dist/esm/common/Error.js",
-      "default": "./dist/cjs/common/Error.js"
+      "types": "./dist/dts/common/Error.d.ts"
     },
     "./common/Log": {
-      "types": "./dist/dts/common/Log.d.ts",
-      "import": "./dist/esm/common/Log.js",
-      "default": "./dist/cjs/common/Log.js"
+      "types": "./dist/dts/common/Log.d.ts"
     },
     "./common/Type": {
-      "types": "./dist/dts/common/Type.d.ts",
-      "import": "./dist/esm/common/Type.js",
-      "default": "./dist/cjs/common/Type.js"
+      "types": "./dist/dts/common/Type.d.ts"
     },
     "./game/Event": {
-      "types": "./dist/dts/game/Event.d.ts",
-      "import": "./dist/esm/game/Event.js",
-      "default": "./dist/cjs/game/Event.js"
+      "types": "./dist/dts/game/Event.d.ts"
     },
     "./game/Form": {
-      "types": "./dist/dts/game/Form.d.ts",
-      "import": "./dist/esm/game/Form.js",
-      "default": "./dist/cjs/game/Form.js"
+      "types": "./dist/dts/game/Form.d.ts"
     }
   }
 }

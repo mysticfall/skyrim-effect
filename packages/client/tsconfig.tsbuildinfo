@@ -1,1 +1,0 @@
-{"root":["./src/index.ts","./src/common/Debug.ts","./src/common/Error.ts","./src/common/Http.ts","./src/common/Log.ts","./src/common/Type.ts","./src/common/index.ts","./src/game/Event.ts","./src/game/Form.ts","./src/game/index.ts"],"errors":true,"version":"5.6.3"}

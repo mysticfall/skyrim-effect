@@ -3,12 +3,14 @@ import {Effect} from "effect/Effect"
 import {Debug} from "@skyrim-platform/skyrim-platform"
 
 export function messageBox(message: string): Effect<void> {
+    // eslint-disable-next-line require-yield
     return FX.gen(function* () {
         Debug.messageBox(message)
     })
 }
 
 export function notification(message: string): Effect<void> {
+    // eslint-disable-next-line require-yield
     return FX.gen(function* () {
         Debug.notification(message)
     })

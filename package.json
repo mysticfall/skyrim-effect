@@ -1,15 +1,19 @@
 {
-  "name": "skyrim-effect-client",
+  "name": "skyrim-effect",
   "version": "0.0.1",
   "private": false,
   "type": "module",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/skyrim-effect.umd.js",
+  "module": "./dist/skyrim-effect.umd.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "pnpm build-esm && pnpm build-cjs",
-    "build-esm": "tsc -b",
-    "build-cjs": "babel dist/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir dist/cjs --source-maps"
+    "build": "vite build && tsc -b",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "doc": "typedoc",
+    "test": "vitest --no-watch",
+    "coverage": "vitest --coverage --no-watch",
+    "make-badges": "istanbul-badges-readme"
   },
   "keywords": [
     "skyrim",
@@ -17,14 +21,24 @@
   ],
   "peerDependencies": {
     "@skyrim-platform/skyrim-platform": "2.9.0",
-    "effect": "^3.10"
+    "effect": "^3.12.1"
   },
   "devDependencies": {
-    "typescript": "^5.6.3",
-    "@babel/cli": "^7.25.9",
-    "@babel/core": "^7.26.0",
-    "@babel/plugin-transform-export-namespace-from": "^7.25.9",
-    "@babel/plugin-transform-modules-commonjs": "^7.25.9"
+    "typescript": "^5.7.3",
+    "typedoc": "^0.27.6",
+    "vite": "^6.0.7",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^2.1.8",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@effect/vitest": "^0.16.1",
+    "@stylistic/eslint-plugin": "^2.12.1",
+    "eslint": "^9.18.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-config-prettier": "^9.1.0",
+    "@eslint/js": "^9.18.0",
+    "prettier": "^3.4.2",
+    "typescript-eslint": "^8.19.1",
+    "husky": "^9.1.7"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -42,11 +56,6 @@
       "types": "./dist/dts/common/Error.d.ts",
       "import": "./dist/esm/common/Error.js",
       "default": "./dist/cjs/common/Error.js"
-    },
-    "./common/Http": {
-      "types": "./dist/dts/common/Http.d.ts",
-      "import": "./dist/esm/common/Http.js",
-      "default": "./dist/cjs/common/Http.js"
     },
     "./common/Log": {
       "types": "./dist/dts/common/Log.d.ts",

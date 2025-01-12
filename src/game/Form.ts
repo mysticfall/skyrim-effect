@@ -85,7 +85,7 @@ import {
     Weapon,
     Weather,
     WordOfPower,
-    WorldSpace,
+    WorldSpace
 } from "@skyrim-platform/skyrim-platform"
 import {pipe} from "effect/Function"
 import {TaggedError} from "effect/Data"
@@ -96,62 +96,73 @@ import * as ST from "effect/String"
 import {Constructor} from "../common/Type"
 
 export class FormError extends TaggedError("Form")<{
-    message: string,
-    formId: number,
-    form?: Form,
+    message: string
+    formId: number
+    form?: Form
     modFile?: string
-}> {
-}
+}> {}
 
-const withString = (value: string | null | undefined) => <R>(
-    fn: (name: string) => R, onEmpty: () => R
-): R => pipe(
-    value,
-    O.fromNullable,
-    O.filter(ST.isNonEmpty),
-    O.map(fn),
-    O.getOrElse(onEmpty)
-)
+const withString =
+    (value: string | null | undefined) =>
+    <R>(fn: (name: string) => R, onEmpty: () => R): R =>
+        pipe(
+            value,
+            O.fromNullable,
+            O.filter(ST.isNonEmpty),
+            O.map(fn),
+            O.getOrElse(onEmpty)
+        )
 
 export function resolveForm<T extends PapyrusObject>(
-    type: Constructor<T> & { from: (form: Form | null) => T | null }
-): (
-    formId: number,
-    modFile?: string
-) => Effect<T, FormError> {
+    type: Constructor<T> & {from: (form: Form | null) => T | null}
+): (formId: number, modFile?: string) => Effect<T, FormError> {
     return (formId, modFile) => {
         const withModName = withString(modFile)
         const withFormName = (form: Form) => withString(form.getName())
 
         return pipe(
             FX.Do,
-            FX.bind("form", () => pipe(
-                withModName(
-                    mod => Game.getFormFromFile(formId, mod),
-                    () => Game.getFormEx(formId)
-                ),
-                FX.fromNullable,
-                FX.mapError(() => new FormError({
-                    message: withModName(
-                        mod => `Failed to find ${type.name}(${formId}) from ${mod}.`,
-                        () => `No such ${type.name} exists: ${formId}.`
+            FX.bind("form", () =>
+                pipe(
+                    withModName(
+                        mod => Game.getFormFromFile(formId, mod),
+                        () => Game.getFormEx(formId)
                     ),
-                    formId,
-                    modFile
-                }))
-            )),
-            FX.bind("object", ({form}) => pipe(
-                type.from(form),
-                FX.fromNullable,
-                FX.mapError(() => new FormError({
-                    message: withFormName(form)(
-                        name => `Expected ${formId} to be ${type.name}, but it was ${name}.`,
-                        () => `Unexpected type for ${type.name}$(${formId}).`
-                    ),
-                    formId,
-                    modFile
-                }))
-            )),
+                    FX.fromNullable,
+                    FX.mapError(
+                        () =>
+                            new FormError({
+                                message: withModName(
+                                    mod =>
+                                        `Failed to find ${type.name}(${formId}) from ${mod}.`,
+                                    () =>
+                                        `No such ${type.name} exists: ${formId}.`
+                                ),
+                                formId,
+                                modFile
+                            })
+                    )
+                )
+            ),
+            FX.bind("object", ({form}) =>
+                pipe(
+                    type.from(form),
+                    FX.fromNullable,
+                    FX.mapError(
+                        () =>
+                            new FormError({
+                                message: withFormName(form)(
+                                    name =>
+                                        `Expected ${formId} to be ${type.name}, but it was ${name}.`,
+                                    () =>
+                                        `Unexpected type for ${type.name}$(${formId}).`
+                                ),
+                                formId,
+                                modFile
+                            })
+                    )
+                )
+            ),
             FX.map(({object}) => object as T)
         )
     }

@@ -28,16 +28,19 @@ export interface LoggingOptions {
     readonly minLevels?: MinimumLogLevels
 }
 
-export function createLogger(options?: LoggingOptions): Logger.Logger<unknown, void> {
+export function createLogger(
+    options?: LoggingOptions
+): Logger.Logger<unknown, void> {
     return Logger.make(({logLevel, message}) => {
         if (logLevel === LogLevel.None) return
 
         const isAllowed = (minLevel: LogLevel.LogLevel) =>
-            minLevel != LogLevel.None && LogLevel.greaterThanEqual(logLevel, minLevel)
+            minLevel != LogLevel.None &&
+            LogLevel.greaterThanEqual(logLevel, minLevel)
 
-        const entry = options?.prefix ?
-            `[${options?.prefix}][${logLevel.label}]: ${message}` :
-            `[${logLevel.label}]: ${message}`
+        const entry = options?.prefix
+            ? `[${options?.prefix}][${logLevel.label}]: ${message}`
+            : `[${logLevel.label}]: ${message}`
 
         if (isAllowed(options?.minLevels?.trace ?? LogLevel.Trace)) {
             Debug.trace(entry, getTraceLevel(logLevel))

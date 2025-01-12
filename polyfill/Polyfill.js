@@ -1,15 +1,5 @@
-import encoding from "text-encoding/lib/encoding"
-
-const jsbi = require("jsbi")
 const {on, Debug} = require("@skyrim-platform/skyrim-platform")
 const {createTimer} = require("./Timer")
-
-global.TextEncoder = encoding.TextEncoder
-global.TextDecoder = encoding.TextDecoder
-
-if (typeof BigInt === "undefined") {
-    global.BigInt = jsbi.BigInt
-}
 
 if (typeof console === "undefined") {
     global.console = {

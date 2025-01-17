@@ -21,23 +21,23 @@
   ],
   "peerDependencies": {
     "@skyrim-platform/skyrim-platform": "2.9.0",
-    "effect": "^3.12.1"
+    "effect": "^3.12.5"
   },
   "devDependencies": {
     "typescript": "^5.7.3",
     "typedoc": "^0.27.6",
     "vite": "^6.0.7",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^2.1.8",
-    "@vitest/coverage-v8": "^2.1.8",
-    "@effect/vitest": "^0.16.1",
-    "@stylistic/eslint-plugin": "^2.12.1",
+    "vitest": "^3.0.1",
+    "@vitest/coverage-v8": "^3.0.1",
+    "@effect/vitest": "^0.17.1",
+    "@stylistic/eslint-plugin": "^2.13.0",
     "eslint": "^9.18.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.2",
+    "eslint-config-prettier": "^10.0.1",
     "@eslint/js": "^9.18.0",
     "prettier": "^3.4.2",
-    "typescript-eslint": "^8.19.1",
+    "typescript-eslint": "^8.20.0",
     "husky": "^9.1.7",
     "glob": "^11.0.1"
   },
@@ -81,6 +81,7 @@
   "files": [
     "README.md",
     "LICENSE.md",
-    "dist"
+    "dist",
+    "mock"
   ]
 }

@@ -96,7 +96,7 @@ import * as SC from "effect/Schema"
 import * as ST from "effect/String"
 import {Constructor} from "../common/Type"
 
-export class FormError extends TaggedError("Form")<{
+export class FormError extends TaggedError("FormError")<{
     message: string
     formId: number
     form?: Form

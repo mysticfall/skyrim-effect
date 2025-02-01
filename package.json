@@ -72,6 +72,11 @@
       "import": "./dist/esm/game/Form.js",
       "require": "./dist/cjs/game/Form.js"
     },
+    "./game/Time": {
+      "types": "./dist/dts/game/Time.d.ts",
+      "import": "./dist/esm/game/Time.js",
+      "require": "./dist/cjs/game/Time.js"
+    },
     "./*": {
       "types": "./dist/dts/*.d.ts",
       "import": "./dist/esm/*.js",

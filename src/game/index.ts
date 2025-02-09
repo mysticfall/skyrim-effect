@@ -1,3 +1,5 @@
+export * as Actor from "./Actor"
 export * as Event from "./Event"
 export * as Form from "./Form"
 export * as Time from "./Time"
+export * as VoiceType from "./VoiceType"

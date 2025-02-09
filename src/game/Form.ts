@@ -4,9 +4,6 @@ import {
     Action,
     Activator,
     ActiveMagicEffect,
-    Actor,
-    ActorBase,
-    ActorValueInfo,
     Alias,
     Ammo,
     Apparatus,
@@ -81,7 +78,6 @@ import {
     TreeObject,
     Ui,
     VisualEffect,
-    VoiceType,
     Weapon,
     Weather,
     WordOfPower,
@@ -114,15 +110,6 @@ export type ActivatorId = typeof ActivatorId.Type
 
 export const ActiveMagicEffectId = pipe(FormId, SC.brand("ActiveMagicEffectId"))
 export type ActiveMagicEffectId = typeof ActiveMagicEffectId.Type
-
-export const ActorId = pipe(FormId, SC.brand("ActorId"))
-export type ActorId = typeof ActorId.Type
-
-export const ActorBaseId = pipe(FormId, SC.brand("ActorBaseId"))
-export type ActorBaseId = typeof ActorBaseId.Type
-
-export const ActorValueInfoId = pipe(FormId, SC.brand("ActorValueInfoId"))
-export type ActorValueInfoId = typeof ActorValueInfoId.Type
 
 export const AliasId = pipe(FormId, SC.brand("AliasId"))
 export type AliasId = typeof AliasId.Type
@@ -349,9 +336,6 @@ export type UiId = typeof UiId.Type
 export const VisualEffectId = pipe(FormId, SC.brand("VisualEffectId"))
 export type VisualEffectId = typeof VisualEffectId.Type
 
-export const VoiceTypeId = pipe(FormId, SC.brand("VoiceTypeId"))
-export type VoiceTypeId = typeof VoiceTypeId.Type
-
 export const WeaponId = pipe(FormId, SC.brand("WeaponId"))
 export type WeaponId = typeof WeaponId.Type
 
@@ -436,11 +420,6 @@ export const getActiveMagicEffect = resolveForm<
     ActiveMagicEffectId,
     ActiveMagicEffect
 >(ActiveMagicEffect)
-export const getActor = resolveForm<ActorId, Actor>(Actor)
-export const getActorBase = resolveForm<ActorBaseId, ActorBase>(ActorBase)
-export const getActorValueInfo = resolveForm<ActorValueInfoId, ActorValueInfo>(
-    ActorValueInfo
-)
 export const getAlias = resolveForm<AliasId, Alias>(Alias)
 export const getAmmo = resolveForm<AmmoId, Ammo>(Ammo)
 export const getApparatus = resolveForm<ApparatusId, Apparatus>(Apparatus)
@@ -564,7 +543,6 @@ export const getUi = resolveForm<UiId, Ui>(Ui)
 export const getVisualEffect = resolveForm<VisualEffectId, VisualEffect>(
     VisualEffect
 )
-export const getVoiceType = resolveForm<VoiceTypeId, VoiceType>(VoiceType)
 export const getWeapon = resolveForm<WeaponId, Weapon>(Weapon)
 export const getWeather = resolveForm<WeatherId, Weather>(Weather)
 export const getWordOfPower = resolveForm<WordOfPowerId, WordOfPower>(

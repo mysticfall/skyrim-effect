@@ -62,6 +62,11 @@
       "import": "./dist/esm/common/Type.js",
       "require": "./dist/cjs/common/Type.js"
     },
+    "./game/Actor": {
+      "types": "./dist/dts/game/Actor.d.ts",
+      "import": "./dist/esm/game/Actor.js",
+      "require": "./dist/cjs/game/Actor.js"
+    },
     "./game/Event": {
       "types": "./dist/dts/game/Event.d.ts",
       "import": "./dist/esm/game/Event.js",
@@ -76,6 +81,11 @@
       "types": "./dist/dts/game/Time.d.ts",
       "import": "./dist/esm/game/Time.js",
       "require": "./dist/cjs/game/Time.js"
+    },
+    "./game/VoiceType": {
+      "types": "./dist/dts/game/VoiceType.d.ts",
+      "import": "./dist/esm/game/VoiceType.js",
+      "require": "./dist/cjs/game/VoiceType.js"
     },
     "./*": {
       "types": "./dist/dts/*.d.ts",

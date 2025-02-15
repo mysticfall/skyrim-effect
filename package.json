@@ -7,6 +7,7 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/dts/index.d.ts",
   "scripts": {
+    "prepare": "husky",
     "build": "vite build && tsc -b --emitDeclarationOnly",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",

@@ -93,6 +93,11 @@
       "require": "./dist/cjs/*.js"
     }
   },
+  "pnpm": {
+    "overrides": {
+      "@skyrim-platform/skyrim-platform": "./mock/skyrim-platform"
+    }
+  },
   "files": [
     "README.md",
     "LICENSE.md",

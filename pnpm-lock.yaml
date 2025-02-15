@@ -4,13 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@skyrim-platform/skyrim-platform': ./mock/skyrim-platform
+
 importers:
 
   .:
     dependencies:
       '@skyrim-platform/skyrim-platform':
-        specifier: 2.9.0
-        version: 2.9.0
+        specifier: ./mock/skyrim-platform
+        version: link:mock/skyrim-platform
       effect:
         specifier: ^3.12.10
         version: 3.12.10
@@ -457,9 +460,6 @@ packages:
 
   '@shikijs/vscode-textmate@10.0.1':
     resolution: {integrity: sha512-fTIQwLF+Qhuws31iw7Ncl1R3HUDtGwIipiJ9iU+UsDUwMhegFcQKQHd51nZjb7CArq0MvON8rbgCGQYWHUKAdg==}
-
-  '@skyrim-platform/skyrim-platform@2.9.0':
-    resolution: {integrity: sha512-ojrCbrBZNFDQpoJ1RN1Eb9TY9DTEmvfS9M2P86Gw+7dFipUPVpb0jjOmp6lgObGlL/D92AlY/6qHxMSb2bagww==}
 
   '@stylistic/eslint-plugin@3.1.0':
     resolution: {integrity: sha512-pA6VOrOqk0+S8toJYhQGv2MWpQQR0QpeUo9AhNkC49Y26nxBQ/nH1rta9bUU1rPw2fJ1zZEMV5oCX5AazT7J2g==}
@@ -1662,8 +1662,6 @@ snapshots:
       '@types/hast': 3.0.4
 
   '@shikijs/vscode-textmate@10.0.1': {}
-
-  '@skyrim-platform/skyrim-platform@2.9.0': {}
 
   '@stylistic/eslint-plugin@3.1.0(eslint@9.20.0)(typescript@5.7.3)':
     dependencies:

@@ -3,7 +3,7 @@ import {
     ActorBase,
     ActorValueInfo
 } from "@skyrim-platform/skyrim-platform"
-import {FormId, resolveForm} from "./Form"
+import {FormHexId, FormId, resolveForm, toHexId} from "./Form"
 import {pipe} from "effect/Function"
 import * as SC from "effect/Schema"
 
@@ -20,6 +20,21 @@ export type ActorId = typeof ActorId.Type
 
 export function getActorId(actor: Actor): ActorId {
     return ActorId.make(actor.getFormID())
+}
+
+export const ActorHexId = pipe(
+    FormHexId,
+    SC.brand("ActorHexId"),
+    SC.annotations({
+        title: "Actor Hex ID",
+        description: "The ID of an actor as a hex string."
+    })
+)
+
+export type ActorHexId = typeof ActorHexId.Type
+
+export function getActorHexId(actor: Actor): ActorHexId {
+    return pipe(actor, getActorId, toHexId(ActorHexId))
 }
 
 export const ActorName = pipe(

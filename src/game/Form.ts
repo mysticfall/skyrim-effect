@@ -89,8 +89,11 @@ import * as FX from "effect/Effect"
 import {Effect} from "effect/Effect"
 import * as O from "effect/Option"
 import * as SC from "effect/Schema"
+import {BrandSchema} from "effect/Schema"
 import * as ST from "effect/String"
 import {Constructor} from "../common/Type"
+import {Brand} from "effect/Brand"
+import Unbranded = Brand.Unbranded
 
 export class FormError extends TaggedError("FormError")<{
     message: string
@@ -101,6 +104,28 @@ export class FormError extends TaggedError("FormError")<{
 
 export const FormId = pipe(SC.NonNegativeInt, SC.brand("FormId"))
 export type FormId = typeof FormId.Type
+
+export const FormHexId = pipe(
+    SC.String,
+    SC.pattern(/^[A-F0-9]{8}$/),
+    SC.brand("FormHexId")
+)
+export type FormHexId = typeof FormHexId.Type
+
+export function toHexId<In extends FormId, Out extends FormHexId>(
+    schema: BrandSchema<Out, string>
+): (id: In) => Out {
+    return id =>
+        pipe(id.toString(16), ST.toUpperCase, ST.padStart(8, "0"), v =>
+            schema.make(v as Unbranded<Out>)
+        )
+}
+
+export function fromHexId<In extends FormHexId, Out extends FormId>(
+    schema: BrandSchema<Out, number>
+): (id: In) => Out {
+    return id => pipe(parseInt(id, 16), v => schema.make(v as Unbranded<Out>))
+}
 
 export const ActionId = pipe(FormId, SC.brand("ActionId"))
 export type ActionId = typeof ActionId.Type

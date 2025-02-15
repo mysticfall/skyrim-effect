@@ -34,5 +34,13 @@ export default defineConfig({
             external: ["@skyrim-platform/skyrim-platform"],
             preserveEntrySignatures: "allow-extension"
         }
+    },
+    test: {
+        include: ["./test/**/*.test.ts"],
+        coverage: {
+            provider: "v8",
+            reporter: ["json-summary", "html"],
+            exclude: ["docs"]
+        }
     }
 })

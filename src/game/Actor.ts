@@ -18,6 +18,10 @@ export const ActorId = pipe(
 
 export type ActorId = typeof ActorId.Type
 
+export function getActorId(actor: Actor): ActorId {
+    return ActorId.make(actor.getFormID())
+}
+
 export const ActorName = pipe(
     SC.String,
     SC.nonEmptyString(),
@@ -30,9 +34,17 @@ export const ActorName = pipe(
 
 export type ActorName = typeof ActorName.Type
 
+export function getActorName(actor: Actor): ActorName {
+    return ActorName.make(actor.getName())
+}
+
 export const ActorBaseId = pipe(FormId, SC.brand("ActorBaseId"))
 
 export type ActorBaseId = typeof ActorBaseId.Type
+
+export function getActorBaseId(actor: ActorBase): ActorBaseId {
+    return ActorBaseId.make(actor.getFormID())
+}
 
 export const ActorValueInfoId = pipe(FormId, SC.brand("ActorValueInfoId"))
 

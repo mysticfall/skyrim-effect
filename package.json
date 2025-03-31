@@ -9,6 +9,7 @@
   "scripts": {
     "prepare": "husky",
     "build": "vite build && tsc -b --emitDeclarationOnly",
+    "build:debug": "vite build --mode development && tsc -b --emitDeclarationOnly",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "doc": "typedoc",
@@ -35,6 +36,9 @@
     "glob": "^11.0.1",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "rollup-plugin-external-globals": "^0.13.0",
+    "rollup-plugin-node-externals": "^8.0.0",
     "typedoc": "^0.28.1",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0",

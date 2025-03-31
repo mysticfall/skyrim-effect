@@ -25,7 +25,12 @@
     "baseUrl": "./",
     "rootDir": "src",
     "outDir": "dist",
-    "declarationDir": "dist/dts"
+    "declarationDir": "dist/dts",
+    "paths": {
+      "skyrimPlatform": [
+        "node_modules/@skyrim-platform/skyrim-platform"
+      ]
+    }
   },
   "include": [
     "./src"

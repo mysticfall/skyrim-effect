@@ -1,10 +1,8 @@
-import {
-    Actor,
-    ActorBase,
-    ActorValueInfo
-} from "@skyrim-platform/skyrim-platform"
-import {FormHexId, FormId, resolveForm, toHexId} from "./Form"
+import {Actor, ActorBase, ActorValueInfo, Game} from "skyrimPlatform"
+import {FormError, FormHexId, FormId, resolveForm, toHexId} from "./Form"
 import {pipe} from "effect/Function"
+import * as FX from "effect/Effect"
+import {Effect} from "effect/Effect"
 import * as SC from "effect/Schema"
 
 export const ActorId = pipe(
@@ -93,4 +91,18 @@ export const getActorBase = resolveForm<ActorBaseId, ActorBase>(ActorBase)
 
 export const getActorValueInfo = resolveForm<ActorValueInfoId, ActorValueInfo>(
     ActorValueInfo
+)
+
+export const PlayerId = ActorId.make(0x00000014)
+
+export const playerActor: Effect<Actor, FormError> = pipe(
+    FX.fromNullable(Game.getPlayer()),
+    FX.catchTag(
+        "NoSuchElementException",
+        () =>
+            new FormError({
+                formId: PlayerId,
+                message: "Failed to get the player reference."
+            })
+    )
 )

@@ -14,7 +14,6 @@ export default tseslint.config(
             "docs/",
             "mock/",
             "node_modules/",
-            "polyfill/",
             "*.config.js",
             "*.config.mjs"
         ]

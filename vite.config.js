@@ -56,14 +56,6 @@ export default defineConfig(({mode}) => {
             minify: !isDebug,
             sourcemap: isDebug,
             target: "esnext"
-        },
-        test: {
-            include: ["./test/**/*.test.ts"],
-            coverage: {
-                provider: "v8",
-                reporter: ["json-summary", "html"],
-                exclude: ["docs"]
-            }
         }
     }
 })

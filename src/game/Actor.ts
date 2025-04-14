@@ -1,4 +1,9 @@
-import {Actor, ActorBase, ActorValueInfo, Game} from "skyrimPlatform"
+import {
+    Actor,
+    ActorBase,
+    ActorValueInfo,
+    Game
+} from "@skyrim-platform/skyrim-platform"
 import {FormError, FormHexId, FormId, resolveForm, toHexId} from "./Form"
 import {pipe} from "effect/Function"
 import * as FX from "effect/Effect"

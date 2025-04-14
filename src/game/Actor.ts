@@ -101,7 +101,8 @@ export const getActorValueInfo = resolveForm<ActorValueInfoId, ActorValueInfo>(
 export const PlayerId = ActorId.make(0x00000014)
 
 export const playerActor: Effect<Actor, FormError> = pipe(
-    FX.fromNullable(Game.getPlayer()),
+    FX.sync(() => Game.getPlayer()),
+    FX.flatMap(FX.fromNullable),
     FX.catchTag(
         "NoSuchElementException",
         () =>

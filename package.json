@@ -62,6 +62,11 @@
       "import": "./dist/esm/common/Log.js",
       "require": "./dist/cjs/common/Log.js"
     },
+    "./common/Scheduler": {
+      "types": "./dist/dts/common/Scheduler.d.ts",
+      "import": "./dist/esm/common/Scheduler.js",
+      "require": "./dist/cjs/common/Scheduler.js"
+    },
     "./common/Type": {
       "types": "./dist/dts/common/Type.d.ts",
       "import": "./dist/esm/common/Type.js",

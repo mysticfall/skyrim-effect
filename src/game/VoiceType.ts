@@ -33,7 +33,7 @@ export const getVoiceType = resolveForm<VoiceTypeId, VoiceType>(VoiceType)
 export const VoiceName = pipe(SC.NonEmptyString, SC.brand("VoiceName"))
 export type VoiceName = typeof VoiceName.Type
 
-const KnownVoiceNames: Record<string, VoiceName> = {
+const VoiceNameMap: Record<string, VoiceName> = {
     "00013AEF": VoiceName.make("FemaleArgonian"),
     "00013AE9": VoiceName.make("FemaleChild"),
     "00013AE3": VoiceName.make("FemaleCommander"),
@@ -103,6 +103,8 @@ const KnownVoiceNames: Record<string, VoiceName> = {
     "00013AD1": VoiceName.make("MaleYoungEager")
 }
 
+export const KnownVoiceNames: readonly VoiceName[] = R.values(VoiceNameMap)
+
 export function getKnownVoiceName(
     reference: ObjectReference
 ): Option<VoiceName> {
@@ -110,6 +112,6 @@ export function getKnownVoiceName(
         reference.getVoiceType(),
         O.fromNullable,
         O.map(getVoiceTypeHexId),
-        O.flatMap(v => pipe(KnownVoiceNames, R.get(v)))
+        O.flatMap(v => pipe(VoiceNameMap, R.get(v)))
     )
 }
